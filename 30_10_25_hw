@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "kernelspec": {
+      "name": "python",
+      "display_name": "Python (Pyodide)",
+      "language": "python"
+    },
+    "language_info": {
+      "codemirror_mode": {
+        "name": "python",
+        "version": 3
+      },
+      "file_extension": ".py",
+      "mimetype": "text/x-python",
+      "name": "python",
+      "nbconvert_exporter": "python",
+      "pygments_lexer": "ipython3",
+      "version": "3.8"
+    }
+  },
+  "nbformat_minor": 5,
+  "nbformat": 4,
+  "cells": [
+    {
+      "id": "2aca20fc-dac7-4e5d-884c-9bb0eed2767e",
+      "cell_type": "code",
+      "source": "import numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LinearRegression\n\n# table data\nhours = np.array([1,2,3,4,5,6,7,8,9])\nscores = np.array([60,65,70,75,80,85,90,92,95])\n\n# Manual linear regression (fit y = mx + b)\nm, b = np.polyfit(hours, scores, 1)\nprint(f\"Slope (m): {m}\")\nprint(f\"Intercept (b): {b}\")\n\n# Linear regression with sklearn\nhours_reshape = hours.reshape(-1, 1)\nmodel = LinearRegression()\nmodel.fit(hours_reshape, scores)\n\nm_sk = model.coef_[0]\nb_sk = model.intercept_\nprint(\"\")\nprint(\"sklearn calculation:\")\nprint(f\"Slope (m): {m_sk}\")\nprint(f\"Intercept (b): {b_sk}\")\n\n# Predict hours needed for score = 100\nscore_target = 100\nhours_needed_manual = (score_target - b) / m\nhours_needed_sk = (score_target - b_sk) / m_sk\nprint(f\"Hours needed for score 100 (manual): {hours_needed_manual}\")\nprint(f\"Hours needed for score 100 (sklearn): {hours_needed_sk}\")\n\n\nplt.scatter(hours, scores, color='blue', label='Data')\nplt.plot(hours, m*hours + b, color='red', label='Fit (manual)')\nplt.plot(hours, model.predict(hours_reshape), color='green', linestyle='--', label='Fit (sklearn)')\nplt.xlabel(\"Study Hours\")\nplt.ylabel(\"Exam Score\")\nplt.title(\"Relationship between Study Hours and Exam Score\")\nplt.legend()\nplt.show()\n\n# pythonai200425+hwlinreg1@gmail.com",
+      "metadata": {
+        "trusted": true
+      },
+      "outputs": [],
+      "execution_count": null
+    }
+  ]
+}
